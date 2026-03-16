@@ -15,7 +15,6 @@ namespace FinanceControl.Controllers
             _authService = authService;
         }
 
-        /// <summary>Register a new user</summary>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO dto)
         {
@@ -30,7 +29,6 @@ namespace FinanceControl.Controllers
             return CreatedAtAction(nameof(Register), result);
         }
 
-        /// <summary>Login and receive JWT token</summary>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO dto)
         {

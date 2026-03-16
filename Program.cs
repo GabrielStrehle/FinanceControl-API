@@ -9,11 +9,10 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ===================== DATABASE =====================
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer (builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ===================== JWT AUTH =====================
+// JWT setup
 var jwtKey = builder.Configuration["Jwt:Key"]!;
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
 var jwtAudience = builder.Configuration["Jwt:Audience"]!;
@@ -35,27 +34,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// ===================== DEPENDENCY INJECTION =====================
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 
-// ===================== CONTROLLERS =====================
 builder.Services.AddControllers();
-
-// ===================== SWAGGER =====================
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "FinanceControl API",
         Version = "v1",
-        Description = "A RESTful API for personal finance management built with C# and ASP.NET Core."
+        Description = "Personal finance management API built with ASP.NET Core."
     });
 
-    // Configuração JWT no Swagger
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -63,7 +58,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Enter your JWT token. Example: Bearer {your token here}"
+        Description = "Enter your JWT token. Example: Bearer {token}"
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -81,7 +76,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-// ===================== CORS =====================
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -92,7 +87,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ===================== BUILD =====================
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -101,7 +95,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "FinanceControl API v1");
-        options.RoutePrefix = string.Empty; // Swagger na raiz: https://localhost:{port}/
+        options.RoutePrefix = string.Empty;
     });
 }
 

@@ -53,7 +53,7 @@ namespace FinanceControl.Services
 
             var created = await _transactionRepository.CreateAsync(transaction);
 
-            // Recarrega com categoria
+            // busca de novo pra incluir a categoria no retorno
             var full = await _transactionRepository.GetByIdAsync(created.Id, userId);
             return MapToResponse(full!);
         }

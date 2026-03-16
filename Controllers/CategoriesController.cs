@@ -22,7 +22,6 @@ namespace FinanceControl.Controllers
         private int GetUserId() =>
             int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        /// <summary>List all categories of the authenticated user</summary>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -36,7 +35,6 @@ namespace FinanceControl.Controllers
             return Ok(response);
         }
 
-        /// <summary>Create a new category</summary>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CategoryDTO dto)
         {
@@ -60,7 +58,6 @@ namespace FinanceControl.Controllers
             });
         }
 
-        /// <summary>Update a category</summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] CategoryDTO dto)
         {
@@ -88,7 +85,6 @@ namespace FinanceControl.Controllers
             });
         }
 
-        /// <summary>Delete a category</summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

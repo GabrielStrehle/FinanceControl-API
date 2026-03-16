@@ -2,8 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinanceControl.DTOs
 {
-    // ===================== CATEGORY =====================
-
     public class CategoryDTO
     {
         [Required(ErrorMessage = "Name is required")]
@@ -21,8 +19,6 @@ namespace FinanceControl.DTOs
         public string Name { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
     }
-
-    // ===================== TRANSACTION =====================
 
     public class TransactionDTO
     {

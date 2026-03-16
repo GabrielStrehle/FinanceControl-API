@@ -21,7 +21,6 @@ namespace FinanceControl.Controllers
         private int GetUserId() =>
             int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        /// <summary>List all transactions of the authenticated user</summary>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -29,7 +28,6 @@ namespace FinanceControl.Controllers
             return Ok(transactions);
         }
 
-        /// <summary>Get a transaction by ID</summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -41,7 +39,7 @@ namespace FinanceControl.Controllers
             return Ok(transaction);
         }
 
-        /// <summary>Get financial summary (total income, expense and balance)</summary>
+        // retorna totais de entrada, saida e saldo
         [HttpGet("summary")]
         public async Task<IActionResult> GetSummary()
         {
@@ -49,7 +47,6 @@ namespace FinanceControl.Controllers
             return Ok(summary);
         }
 
-        /// <summary>Create a new transaction</summary>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TransactionDTO dto)
         {
@@ -60,7 +57,6 @@ namespace FinanceControl.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        /// <summary>Update a transaction</summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] TransactionDTO dto)
         {
@@ -75,7 +71,6 @@ namespace FinanceControl.Controllers
             return Ok(updated);
         }
 
-        /// <summary>Delete a transaction</summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

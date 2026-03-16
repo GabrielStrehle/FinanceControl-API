@@ -28,7 +28,6 @@ namespace FinanceControl.Services
 
         public async Task<AuthResponseDTO?> RegisterAsync(RegisterDTO dto)
         {
-            // Verifica se email já existe
             var exists = await _context.Users.AnyAsync(u => u.Email == dto.Email);
             if (exists) return null;
 
@@ -52,8 +51,8 @@ namespace FinanceControl.Services
 
             if (user == null) return null;
 
-            var passwordValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash);
-            if (!passwordValid) return null;
+            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+                return null;
 
             return GenerateToken(user);
         }
